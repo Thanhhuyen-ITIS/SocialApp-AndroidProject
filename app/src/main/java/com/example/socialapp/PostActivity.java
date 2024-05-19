@@ -96,7 +96,6 @@ public class PostActivity extends AppCompatActivity {
                     if (!task.isSuccessful()){
                         throw task.getException();
                     }
-
                     return filePath.getDownloadUrl();
                 }
             }).addOnCompleteListener(new OnCompleteListener() {

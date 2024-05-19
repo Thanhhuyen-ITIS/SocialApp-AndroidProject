@@ -1,13 +1,16 @@
 package com.example.socialapp.model;
 
 public class Comment {
+
+    private String id;
     private String comment;
     private String publisher;
 
     public Comment() {
     }
 
-    public Comment(String comment, String publisher) {
+    public Comment(String id, String comment, String publisher) {
+        this.id = id;
         this.comment = comment;
         this.publisher = publisher;
     }
@@ -26,5 +29,13 @@ public class Comment {
 
     public void setPublisher(String publisher) {
         this.publisher = publisher;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
