@@ -2,6 +2,7 @@ package com.example.socialapp.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.socialapp.CommentActivity;
+import com.example.socialapp.FollowersActivity;
 import com.example.socialapp.R;
 import com.example.socialapp.fragments.PostDetailFragment;
 import com.example.socialapp.fragments.ProfileFragment;
@@ -27,6 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.hendraanggrian.appcompat.socialview.widget.SocialTextView;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
@@ -57,21 +60,29 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
         FirebaseDatabase.getInstance().getReference().child("Users").child(post.getPublisher())
                 .addValueEventListener(new ValueEventListener() {
-
                     @Override
+
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if (snapshot == null)
+                        if (!snapshot.exists()) {
                             return;
+                        }
                         User user = snapshot.getValue(User.class);
+                        if (user != null) {
+                            // Kiểm tra xem imageUrl có null hay không trước khi sử dụng
+                            String imageUrl = user.getImageUrl();
+                            if (imageUrl != null && !imageUrl.equals("default")) {
+                                Picasso.get().load(imageUrl).into(holder.userImagePost);
+                            } else {
+                                holder.userImagePost.setImageResource(R.mipmap.ic_launcher);
+                            }
 
-                        if (user.getImageUrl().equals("default"))
-                            holder.userImagePost.setImageResource(R.mipmap.ic_launcher);
-                        else
-                            Picasso.get().load(user.getImageUrl()).into(holder.userImagePost);
-
-                        holder.username.setText(user.getUsername());
-                        holder.author.setText(user.getName());
+                            holder.username.setText(user.getUsername());
+                            holder.author.setText(user.getName());
+                        } else {
+                            Log.e("UserError", "User data is null");
+                        }
                     }
+
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
@@ -89,6 +100,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             public void onClick(View v) {
                 if (holder.likeImage.getTag().equals("like")) {
                     FirebaseDatabase.getInstance().getReference().child("Likes").child(post.getPostId()).child(firebaseUser.getUid()).setValue(true);
+                    if (!post.getPublisher().equals(firebaseUser.getUid()))
+                    {
+                        addNotification(post.getPostId(), post.getPublisher());
+                    }
+
                 } else {
                     FirebaseDatabase.getInstance().getReference().child("Likes").child(post.getPostId()).child(firebaseUser.getUid()).removeValue();
                 }
@@ -168,6 +184,24 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                         .replace(R.id.fragment_container, new PostDetailFragment()).commit();
             }
         });
+
+        holder.noOfLikes.setOnClickListener(v->{
+            Intent intent = new Intent(context, FollowersActivity.class);
+            intent.putExtra("id", post.getPostId());
+            intent.putExtra("title", "likes");
+            context.startActivity(intent);
+        });
+    }
+
+    private void addNotification(String postId, String publisher) {
+
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("userId", firebaseUser.getUid());
+        map.put("text", "liked your post");
+        map.put("postId", postId);
+        map.put("isPost", true);
+
+        FirebaseDatabase.getInstance().getReference().child("Notifications").child(publisher).push().setValue(map);
     }
 
     private void isSaved(String postId, ImageView saveImage) {

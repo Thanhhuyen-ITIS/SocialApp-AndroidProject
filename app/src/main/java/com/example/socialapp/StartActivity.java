@@ -52,9 +52,9 @@ public class StartActivity extends AppCompatActivity {
         });
         Bundle intent = getIntent().getExtras();
         if (intent != null) {
-            String profileIdd = intent.getString("publisherId");
+            String profileId = intent.getString("publisherId", "none");
 
-            getSharedPreferences("PROFILE", MODE_PRIVATE).edit().putString("profileId", profileIdd).apply();
+            getSharedPreferences("PROFILE", MODE_PRIVATE).edit().putString("profileId", profileId).apply();
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProfileFragment()).commit();
             bottomNavigationView.setSelectedItemId(R.id.nav_profile);
         }

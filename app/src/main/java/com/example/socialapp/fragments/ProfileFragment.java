@@ -1,7 +1,9 @@
 package com.example.socialapp.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.socialapp.EditProfileActivity;
+import com.example.socialapp.FollowersActivity;
+import com.example.socialapp.OptionsActivity;
 import com.example.socialapp.R;
 import com.example.socialapp.adapter.PhotoAdapter;
 import com.example.socialapp.model.Post;
@@ -78,6 +82,7 @@ public class ProfileFragment extends Fragment {
             profileId = firebaseUser.getUid();
         } else {
             profileId = data;
+            getContext().getSharedPreferences("PROFILE", Context.MODE_PRIVATE).edit().clear().apply();
         }
 
         imageProfile = view.findViewById(R.id.profile_image);
@@ -128,6 +133,7 @@ public class ProfileFragment extends Fragment {
         } else {
             checkFollow();
             savedPosts.setVisibility(View.GONE);
+            options.setVisibility(View.GONE);
         }
 
         editProfile.setOnClickListener(new View.OnClickListener() {
@@ -172,6 +178,22 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        followers.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), FollowersActivity.class);
+            intent.putExtra("id", profileId);
+            intent.putExtra("title", "followers");
+            startActivity(intent);
+        });
+        following.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), FollowersActivity.class);
+            intent.putExtra("id", profileId);
+            intent.putExtra("title", "following");
+            startActivity(intent);
+        });
+
+        options.setOnClickListener(v -> {
+            startActivity(new Intent(getContext(), OptionsActivity.class));
+        });
         return view;
     }
 
@@ -318,13 +340,26 @@ public class ProfileFragment extends Fragment {
                 .child(profileId).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        User user = snapshot.getValue(User.class);
-                        Picasso.get().load(user.getImageUrl()).placeholder(R.mipmap.ic_launcher).into(imageProfile);
-                        username.setText(user.getUsername());
-                        fullName.setText(user.getName());
-                        bio.setText(user.getBio());
-
+                        if (snapshot.exists()) {
+                            User user = snapshot.getValue(User.class);
+                            if (user != null) {
+                                String imageUrl = user.getImageUrl();
+                                if (imageUrl != null && "default".equals(imageUrl)) {
+                                    imageProfile.setImageResource(R.mipmap.ic_launcher);
+                                } else {
+                                    Picasso.get().load(imageUrl).placeholder(R.mipmap.ic_launcher).into(imageProfile);
+                                }
+                                username.setText(user.getUsername());
+                                fullName.setText(user.getName());
+                                bio.setText(user.getBio());
+                            } else {
+                                Log.e("UserError", "User data is null");
+                            }
+                        } else {
+                            Log.e("DataSnapshotError", "DataSnapshot does not exist");
+                        }
                     }
+
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
 

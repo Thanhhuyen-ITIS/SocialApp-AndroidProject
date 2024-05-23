@@ -116,7 +116,7 @@ public class RegisterActivity extends AppCompatActivity {
             map.put("name", nameText);
             map.put("id", fAuth.getCurrentUser().getUid());
             map.put("bio", "");
-            map.put("imageurl", "default");
+            map.put("imageUrl", "default");
             dReference.child("Users").child(fAuth.getCurrentUser().getUid()).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {

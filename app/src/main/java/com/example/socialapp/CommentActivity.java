@@ -138,7 +138,7 @@ public class CommentActivity extends AppCompatActivity {
 
         addComment.setText("");
 
-        FirebaseDatabase.getInstance().getReference().child("Comments").child(postId).push().setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+        ref.child(commentId).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isComplete()) {

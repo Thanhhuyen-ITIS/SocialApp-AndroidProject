@@ -25,7 +25,7 @@
                     android:id="@+id/username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="helovhdu"
+                    android:text=""
                     android:textSize="18sp"
                     android:maxLines="1"
                     android:textStyle="bold"
@@ -64,7 +64,6 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:id="@+id/profile_image"
-                    android:src="@drawable/ic_profile"
                     />
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -168,7 +167,7 @@
                     android:layout_height="wrap_content"
                     android:maxLines="1"
                     android:id="@+id/fullname"
-                    android:text="Huyen"
+                    android:text=""
                     android:textStyle="bold"
                     android:textSize="18sp"
                     android:textColor="@color/colorPrimaryDark" />
@@ -176,7 +175,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="bio my my"
+                    android:text=""
                     android:maxLines="5"
                     android:id="@+id/bio"
                     android:textColor="@color/colorAccent" />

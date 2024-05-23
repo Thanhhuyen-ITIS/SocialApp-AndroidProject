@@ -64,15 +64,14 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if (snapshot == null) {
-                            return;
-                        }
-                        User user = snapshot.getValue(User.class);
-                        holder.username.setText(user.getUsername());
-                        if (user.getImageUrl().equals("default")) {
-                            holder.userImage.setImageResource(R.mipmap.ic_launcher);
-                        } else {
-                            Picasso.get().load(user.getImageUrl()).into(holder.userImage);
+                        if (snapshot.exists()) {
+                            User user = snapshot.getValue(User.class);
+                            holder.username.setText(user.getUsername());
+                            if (user.getImageUrl().equals("default")) {
+                                holder.userImage.setImageResource(R.mipmap.ic_launcher);
+                            } else {
+                                Picasso.get().load(user.getImageUrl()).into(holder.userImage);
+                            }
                         }
                     }
 
@@ -103,8 +102,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if (comment.getPublisher().equals(firebaseUser.getUid())) {
-
+                if (comment.getPublisher().endsWith(firebaseUser.getUid())) {
                     AlertDialog alertDialog = new AlertDialog.Builder(context).create();
                     alertDialog.setTitle("Do you want to delete this comment?");
                     alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "No",
