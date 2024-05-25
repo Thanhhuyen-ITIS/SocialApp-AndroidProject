@@ -29,8 +29,18 @@ import com.google.firebase.database.ValueEventListener;
 import com.hendraanggrian.appcompat.socialview.widget.SocialTextView;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     private Context context;
@@ -68,7 +78,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                         }
                         User user = snapshot.getValue(User.class);
                         if (user != null) {
-                            // Kiểm tra xem imageUrl có null hay không trước khi sử dụng
                             String imageUrl = user.getImageUrl();
                             if (imageUrl != null && !imageUrl.equals("default")) {
                                 Picasso.get().load(imageUrl).into(holder.userImagePost);
@@ -81,6 +90,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                         } else {
                             Log.e("UserError", "User data is null");
                         }
+                        return;
                     }
 
 
@@ -191,18 +201,53 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             intent.putExtra("title", "likes");
             context.startActivity(intent);
         });
+
+        long currentTimestamp = System.currentTimeMillis();
+        Long timestamp = post.getTimestamp();
+        long timeDiff = currentTimestamp - timestamp;
+
+
+        long munites = TimeUnit.MILLISECONDS.toMinutes(timeDiff);
+        long hours = munites/60;
+        long days = hours/24;
+        long months = days / 30;
+        long years = days / 365;
+
+        String time;
+
+        if (years > 0) {
+            time =  years + " years ago ";
+        } else if (months > 0) {
+            time= months + " months ago";
+        } else if (days > 0) {
+           time = days + " days ago";
+        } else if (hours > 0) {
+            time =  hours + " hours ago";
+        } else if (munites > 0){
+            time = munites + " minutes ago";
+        }
+        else {
+            time = "Just now";
+        }
+
+        holder.post_time.setText(time);
     }
 
-    private void addNotification(String postId, String publisher) {
 
+
+    private void addNotification(String postId, String publisher) {
+        Long  timestamp = System.currentTimeMillis();
         HashMap<String, Object> map = new HashMap<>();
         map.put("userId", firebaseUser.getUid());
         map.put("text", "liked your post");
         map.put("postId", postId);
         map.put("isPost", true);
+        map.put("timestamp", timestamp);
 
-        FirebaseDatabase.getInstance().getReference().child("Notifications").child(publisher).push().setValue(map);
+        FirebaseDatabase.getInstance().getReference().child("Notifications").child(firebaseUser.getUid()).push().setValue(map);
+
     }
+
 
     private void isSaved(String postId, ImageView saveImage) {
         FirebaseDatabase.getInstance().getReference().child("Saves").child(firebaseUser.getUid())
@@ -245,6 +290,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         public TextView author;
         SocialTextView description;
 
+        public TextView post_time;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             userImagePost = itemView.findViewById(R.id.user_image);
@@ -259,6 +306,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             noOfComments = itemView.findViewById(R.id.no_of_comments);
             author = itemView.findViewById(R.id.author);
             description = itemView.findViewById(R.id.description);
+            post_time = itemView.findViewById(R.id.post_time);
 
             System.out.println(username.getText() + " " + author.getText() + " " + description.getText());
 
@@ -277,6 +325,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                     imageView.setImageResource(R.drawable.ic_like);
                     imageView.setTag("like");
                 }
+
             }
 
             @Override
@@ -291,6 +340,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 textView.setText(snapshot.getChildrenCount() + " likes");
+
             }
 
             @Override

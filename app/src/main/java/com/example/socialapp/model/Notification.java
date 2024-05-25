@@ -5,12 +5,15 @@ public class Notification {
     private String text;
     private String postId;
     private boolean isPost;
+    private Long timestamp;
 
-    public Notification(String userId, String text, String postId, boolean isPost) {
+    public Notification(String userId, String text, String postId, boolean isPost, Long timestamp) {
         this.userId = userId;
         this.text = text;
         this.postId = postId;
         this.isPost = isPost;
+
+        this.timestamp = timestamp;
     }
 
     public Notification() {
@@ -30,5 +33,9 @@ public class Notification {
 
     public boolean isPost() {
         return isPost;
+    }
+
+    public Long getTimestamp() {
+        return timestamp;
     }
 }

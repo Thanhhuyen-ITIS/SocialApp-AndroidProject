@@ -17,8 +17,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.socialapp.ChatActivity;
 import com.example.socialapp.EditProfileActivity;
 import com.example.socialapp.FollowersActivity;
+import com.example.socialapp.MessageActivity;
 import com.example.socialapp.OptionsActivity;
 import com.example.socialapp.R;
 import com.example.socialapp.adapter.PhotoAdapter;
@@ -68,6 +70,7 @@ public class ProfileFragment extends Fragment {
     private String profileId;
 
     private Button editProfile;
+    private Button start_chat;
 
 
     @Nullable
@@ -117,6 +120,13 @@ public class ProfileFragment extends Fragment {
         photoAdapterSave = new PhotoAdapter(getContext(), saveList);
         
         recyclerViewSave.setAdapter(photoAdapterSave);
+        start_chat = view.findViewById(R.id.start_chat);
+
+        if (profileId.equals(firebaseUser.getUid())) {
+            start_chat.setVisibility(View.GONE);
+        } else {
+            start_chat.setVisibility(View.VISIBLE);
+        }
 
         userInfo();
 
@@ -194,6 +204,12 @@ public class ProfileFragment extends Fragment {
         options.setOnClickListener(v -> {
             startActivity(new Intent(getContext(), OptionsActivity.class));
         });
+        start_chat.setOnClickListener(v -> {
+
+            Intent intent = new Intent(getContext(), MessageActivity.class);
+            intent.putExtra("userId", profileId);
+            startActivity(intent);
+        });
         return view;
     }
 
@@ -252,6 +268,7 @@ public class ProfileFragment extends Fragment {
                         Collections.reverse(photoList);
 
                         photoAdapter.notifyDataSetChanged();
+
                     }
 
                     @Override
@@ -271,6 +288,7 @@ public class ProfileFragment extends Fragment {
                         } else {
                             editProfile.setText("follow");
                         }
+
                     }
 
                     @Override
@@ -298,6 +316,7 @@ public class ProfileFragment extends Fragment {
                 else {
                     posts.setText("0");
                 }
+
             }
 
             @Override
@@ -314,6 +333,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 followers.setText("" + snapshot.getChildrenCount());
+
             }
 
             @Override
@@ -325,6 +345,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 following.setText("" + snapshot.getChildrenCount());
+
             }
 
             @Override
@@ -358,6 +379,7 @@ public class ProfileFragment extends Fragment {
                         } else {
                             Log.e("DataSnapshotError", "DataSnapshot does not exist");
                         }
+
                     }
 
                     @Override

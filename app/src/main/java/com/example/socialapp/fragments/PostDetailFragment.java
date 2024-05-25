@@ -55,6 +55,7 @@ public class PostDetailFragment extends Fragment {
                         Post post = snapshot.getValue(Post.class);
                         postList.add(post);
                         postAdapter.notifyDataSetChanged();
+
                     }
 
                     @Override
@@ -64,6 +65,5 @@ public class PostDetailFragment extends Fragment {
                 });
 
         return view;
-        // Inflate the layout for this fragment
     }
 }

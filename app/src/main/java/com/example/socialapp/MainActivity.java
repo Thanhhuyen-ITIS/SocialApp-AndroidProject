@@ -35,12 +35,9 @@ public class MainActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.login);
         registerButton = findViewById(R.id.register);
 
-        linearLayout.animate().alpha(0f).setDuration(1);
-        TranslateAnimation animation =  new TranslateAnimation(0,0,0,-1000);
-        animation.setDuration(1000);
-        animation.setFillAfter(false);
-        animation.setAnimationListener(new MyAnimationListener());
-        iconImage.startAnimation(animation);
+        iconImage.setVisibility(View.INVISIBLE);
+
+        linearLayout.animate().alpha(1f).setDuration(1000);
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,27 +55,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    }
-    private  class MyAnimationListener implements Animation.AnimationListener {
-
-        @Override
-        public void onAnimationStart(Animation animation) {
-
-        }
-
-        @Override
-        public void onAnimationEnd(Animation animation) {
-            iconImage.clearAnimation();
-            iconImage.setVisibility(View.INVISIBLE);
-            linearLayout.animate().alpha(1f).setDuration(1000);
-
-            iconImage.setAnimation(animation);
-        }
-
-        @Override
-        public void onAnimationRepeat(Animation animation) {
-
-        }
     }
 
     @Override

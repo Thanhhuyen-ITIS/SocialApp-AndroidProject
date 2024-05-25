@@ -1,54 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     android:orientation="vertical"
-    android:padding="12dp"
+    android:padding="16dp"
     android:gravity="center"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_color"
     tools:context=".LoginActivity">
 
     <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:src="@drawable/logo"/>
-
+        android:layout_height="100dp"
+        android:src="@drawable/logo"
+        android:contentDescription="@string/logo_description"
+        android:layout_marginBottom="24dp"/>
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/edit_text_background"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="8dp"
         android:hint="Email"
-        android:padding="10dp"
-        android:id="@+id/email"/>
+        android:padding="14dp"
+        android:drawableLeft="@drawable/ic_email"
+        android:drawablePadding="10dp"
+        android:id="@+id/email"
+        android:textColor="@color/text_color"
+        android:textColorHint="@color/hint_color"
+        android:textSize="16sp"/>
 
     <EditText
         android:id="@+id/password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/edit_text_background"
         android:hint="Password"
-        android:padding="10dp" />
+        android:inputType="textPassword"
+        android:padding="14dp"
+        android:drawableLeft="@drawable/ic_lock"
+        android:drawablePadding="10dp"
+        android:textColor="@color/text_color"
+        android:textColorHint="@color/hint_color"
+        android:textSize="16sp"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="8dp"
         android:text="Login"
-        android:padding="10dp"
+        android:padding="14dp"
+        android:background="@drawable/button_background"
+        android:textColor="@android:color/white"
         android:id="@+id/login"
-        />
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        android:layout_marginBottom="16dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New to my app? Register"
-        android:layout_marginTop="15dp"
-        android:id="@+id/register_user" />
-
+        android:layout_marginTop="16dp"
+        android:id="@+id/register_user"
+        android:textColor="@color/link_color"
+        android:textSize="14sp"
+        android:layout_gravity="center"/>
 
 </LinearLayout>

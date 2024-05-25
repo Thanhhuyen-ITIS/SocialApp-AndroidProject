@@ -76,6 +76,7 @@ public class EditProfileActivity extends AppCompatActivity {
                         username.setText(user.getUsername());
                         bio.setText(user.getBio());
                         Picasso.get().load(user.getImageUrl()).into(imageProfile);
+
                     }
 
                     @Override
@@ -94,6 +95,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
         save.setOnClickListener(v -> {
             updateProfile();
+            finish();
         });
     }
 

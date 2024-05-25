@@ -2,36 +2,50 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp">
+    android:gravity="center"
+    android:layout_margin="8dp">
 
+    <!-- User Image -->
     <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
         android:id="@+id/user_image"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:src="@mipmap/ic_launcher"
-        android:layout_margin="3dp" />
+        android:layout_margin="8dp" />
 
+    <!-- Username and Comment Container -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginStart="5dp"
-        android:layout_toEndOf="@id/user_image"
-        >
+        android:layout_alignTop="@+id/user_image"
+        android:layout_alignBottom="@+id/user_image"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="8dp"
+        android:layout_toEndOf="@+id/user_image"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <!-- Username -->
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textColor="@color/colorPrimaryDark"
             android:id="@+id/username"
-            android:text="Username" />
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxLines="5"
+            android:text="Username"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <!-- Comment -->
+        <TextView
             android:id="@+id/comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:maxLines="3"
             android:text="This is a comment"
-            />
+            android:textSize="14sp" />
+
     </LinearLayout>
 
 </RelativeLayout>

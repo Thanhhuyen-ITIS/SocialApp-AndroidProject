@@ -6,13 +6,16 @@ public class Comment {
     private String comment;
     private String publisher;
 
+    private Long timestamp;
+
     public Comment() {
     }
 
-    public Comment(String id, String comment, String publisher) {
+    public Comment(String id, String comment, String publisher, Long timestamp) {
         this.id = id;
         this.comment = comment;
         this.publisher = publisher;
+        this.timestamp = timestamp;
     }
 
     public String getComment() {
@@ -38,4 +41,10 @@ public class Comment {
     public void setId(String id) {
         this.id = id;
     }
+
+
+    public Long getTimestamp() {
+        return timestamp;
+    }
+
 }

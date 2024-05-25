@@ -129,6 +129,9 @@ public class RegisterActivity extends AppCompatActivity {
                         finish();
                     }
                 }
+            }).addOnFailureListener(e -> {
+                Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                pd.dismiss();
             });
         }).addOnFailureListener(e -> {
             Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();

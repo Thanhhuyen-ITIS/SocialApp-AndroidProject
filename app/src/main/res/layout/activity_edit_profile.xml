@@ -4,103 +4,160 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EditProfileActivity"
     android:orientation="vertical"
-    >
+    tools:context=".EditProfileActivity">
+
+    <!-- App Bar -->
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/bar"
-        android:background="?android:attr/windowBackground"
-        >
+        android:background="@android:color/transparent">
+
+        <!-- Toolbar -->
         <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/toolbar"
-            android:background="?android:attr/windowBackground"
-            >
+            android:layout_height="?attr/actionBarSize"
+            android:elevation="0dp"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:titleTextColor="@color/colorPrimaryDark">
+
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                >
+                android:layout_height="match_parent">
+
+                <!-- Back Button -->
                 <ImageView
+                    android:id="@+id/close"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_back"
-                    android:layout_marginStart="10dp"
-                    android:id="@+id/close"
-                    />
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp" />
 
+                <!-- Title -->
                 <TextView
+                    android:id="@+id/title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Edit Profile"
-                    android:textSize="18sp"
-                    android:layout_marginStart="18dp"
                     android:textColor="@color/colorPrimaryDark"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@id/close"
-                    android:id="@+id/title"
-                    />
+                    android:textSize="18sp"
+                    android:layout_centerInParent="true"/>
 
+                <!-- Save Button -->
                 <TextView
+                    android:id="@+id/save"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Save"
-                    android:textSize="18sp"
-                    android:layout_marginRight="10dp"
                     android:textColor="@color/colorPrimaryDark"
-                    android:layout_centerVertical="true"
+                    android:textSize="18sp"
                     android:layout_alignParentEnd="true"
-                    android:id="@+id/save"
-                    />
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="10dp" />
 
             </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
+    <!-- Profile Image and Change Photo Button -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="10dp"
-        >
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@drawable/ic_profile"
-            android:layout_gravity="center"
-            android:id="@+id/profile_image"
-            android:layout_margin="10dp"/>
+        android:gravity="center"
+        android:padding="20dp">
 
+        <!-- Profile Image -->
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_image"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/ic_profile"
+            android:layout_marginBottom="10dp"
+            android:elevation="2dp"
+            android:background="@drawable/background_circle" />
+
+        <!-- Change Photo Button -->
         <TextView
+            android:id="@+id/change_photo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorPrimaryDark"
             android:text="Change Photo"
-            android:layout_gravity="center"
-            android:id="@+id/change_photo"
-            android:textSize="18sp"/>
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="16sp"
+            android:layout_gravity="center" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="fullname"
-            android:layout_marginTop="20dp"
-            android:id="@+id/fullname"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="username"
-            android:layout_marginTop="20dp"
-            android:id="@+id/username"/>
+    </LinearLayout>
 
-        <EditText
+    <!-- EditTexts for Fullname, Username, and Bio -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- Fullname EditText -->
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="bio"
-            android:layout_marginTop="20dp"
-            android:id="@+id/bio"/>
+            android:hint="Fullname"
+            android:layout_marginBottom="20dp"
+            app:boxCornerRadiusTopStart="20dp"
+            app:boxCornerRadiusTopEnd="20dp"
+            app:boxCornerRadiusBottomStart="20dp"
+            app:boxCornerRadiusBottomEnd="20dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fullname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_background"
+                android:inputType="text"
+                android:layout_marginTop="20sp"
+                android:text="hihi"
+                android:padding="5sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Username"
+            android:layout_marginBottom="20dp"
+            app:boxCornerRadiusTopStart="20dp"
+            app:boxCornerRadiusTopEnd="20dp"
+            app:boxCornerRadiusBottomStart="20dp"
+            app:boxCornerRadiusBottomEnd="20dp">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/username"
+                android:padding="5sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:background="@drawable/edit_text_background"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Bio"
+            app:boxCornerRadiusTopStart="20dp"
+            app:boxCornerRadiusTopEnd="20dp"
+            app:boxCornerRadiusBottomStart="20dp"
+            app:boxCornerRadiusBottomEnd="20dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/bio"
+                android:padding="5sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:background="@drawable/edit_text_background"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
 

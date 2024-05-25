@@ -7,15 +7,18 @@ public class Post {
     private String imageUrl;
     private String publisher;
     private String postId;
+    private Long timestamp;
 
     public Post() {
     }
 
-    public Post(String description, String imageUrl, String publisher, String postId) {
+    public Post(String description, String imageUrl, String publisher, String postId, Long timestamp) {
         this.description = description;
         this.imageUrl = imageUrl;
         this.publisher = publisher;
         this.postId = postId;
+
+        this.timestamp = timestamp;
     }
 
     public String getDescription() {
@@ -48,6 +51,10 @@ public class Post {
 
     public void setPostId(String postId) {
         this.postId = postId;
+    }
+
+    public Long getTimestamp() {
+        return timestamp;
     }
 
     @NonNull

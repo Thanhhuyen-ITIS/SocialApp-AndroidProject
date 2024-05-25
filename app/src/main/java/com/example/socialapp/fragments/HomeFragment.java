@@ -1,5 +1,6 @@
 package com.example.socialapp.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,7 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 
+import com.example.socialapp.ChatActivity;
+import com.example.socialapp.MessageActivity;
 import com.example.socialapp.R;
 import com.example.socialapp.adapter.PostAdapter;
 import com.example.socialapp.model.Post;
@@ -25,6 +30,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
@@ -35,7 +42,7 @@ public class HomeFragment extends Fragment {
 
     private List<String> followingList;
 
-
+    private ImageView chat;
 
 
 
@@ -57,6 +64,9 @@ public class HomeFragment extends Fragment {
         recyclerViewPost.setAdapter(postAdapter);
 
         followingList = new ArrayList<>();
+
+        chat = view.findViewById(R.id.chat);
+
         checkFollowingUsers();
         return view;
     }
@@ -85,31 +95,40 @@ public class HomeFragment extends Fragment {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        FirebaseDatabase.getInstance().getReference().child("Posts").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                postList.clear();
-                for(DataSnapshot data: snapshot.getChildren()) {
-                    Post post = data.getValue(Post.class);
-                    System.out.println(post.getPublisher() + " " + user.getUid());
-                    if (post.getPublisher().equals(user.getUid())) {
-                        postList.add(post);
-                    }
-
-                    else for(String id: followingList) {
-                        if(post.getPublisher().equals(id)) {
-                            postList.add(post);
+        FirebaseDatabase.getInstance().getReference().child("Posts")
+                .orderByChild("timestamp") // Sắp xếp theo trường timestamp
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        postList.clear();
+                        for (DataSnapshot data : snapshot.getChildren()) {
+                            Post post = data.getValue(Post.class);
+                            if (post != null) {
+                                if (post.getPublisher().equals(user.getUid())) {
+                                    postList.add(post);
+                                } else {
+                                    for (String id : followingList) {
+                                        if (post.getPublisher().equals(id)) {
+                                            postList.add(post);
+                                        }
+                                    }
+                                }
+                            }
                         }
+                        // Sắp xếp postList theo thời gian giảm dần
+                        Collections.sort(postList, new Comparator<Post>() {
+                            @Override
+                            public int compare(Post post1, Post post2) {
+                                return Long.compare( post1.getTimestamp(), post2.getTimestamp());
+                            }
+                        });
+                        postAdapter.notifyDataSetChanged();
                     }
-                }
-                postAdapter.notifyDataSetChanged();
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        // Xử lý khi có lỗi
+                    }
+                });
     }
 }

@@ -74,6 +74,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                 }
             }
         });
+
     }
 
     private void getPostImage(ImageView postImage, String postId) {

@@ -47,6 +47,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder>{
                         .replace(R.id.fragment_container, new PostDetailFragment()).commit();
             }
         });
+
     }
 
     @Override

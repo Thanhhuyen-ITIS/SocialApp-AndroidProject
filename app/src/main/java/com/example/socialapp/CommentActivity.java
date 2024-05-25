@@ -136,6 +136,9 @@ public class CommentActivity extends AppCompatActivity {
         map.put("comment", addComment.getText().toString());
         map.put("publisher", firebaseUser.getUid());
 
+        Long timestamp = System.currentTimeMillis();
+        map.put("timestamp", timestamp);
+
         addComment.setText("");
 
         ref.child(commentId).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {

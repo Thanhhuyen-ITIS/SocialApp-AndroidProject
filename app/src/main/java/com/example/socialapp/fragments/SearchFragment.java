@@ -104,6 +104,7 @@ public class SearchFragment extends Fragment {
                     }
                     tagAdapter.notifyDataSetChanged();
                 }
+
             }
 
             @Override
@@ -127,6 +128,7 @@ public class SearchFragment extends Fragment {
                     }
                     userAdapter.notifyDataSetChanged();
                 }
+
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -150,6 +152,7 @@ public class SearchFragment extends Fragment {
                     }
                 }
                 userAdapter.notifyDataSetChanged();
+
             }
 
             @Override
@@ -172,6 +175,7 @@ public class SearchFragment extends Fragment {
                     mHashTagsCount.add(dataSnapshot.getChildrenCount() + "");
                 }
                 tagAdapter.filter(mHashTags, mHashTagsCount);
+
             }
 
             @Override

@@ -107,11 +107,14 @@ public class PostActivity extends AppCompatActivity {
                     DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Posts");
                     String postId = reference.push().getKey();
 
+                    Long timestamp = System.currentTimeMillis();
+
                     HashMap<String, Object> map = new HashMap<>();
                     map.put("postId", postId);
                     map.put("imageUrl", imageUrl);
                     map.put("description", postDescription.getText().toString());
                     map.put("publisher", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    map.put("timestamp", timestamp);
 
                     reference.child(postId).setValue(map);
 
@@ -166,6 +169,7 @@ public class PostActivity extends AppCompatActivity {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     hashtagAdapter.add(new Hashtag(dataSnapshot.getKey(), (int) dataSnapshot.getChildrenCount()));
                 }
+
             }
 
             @Override

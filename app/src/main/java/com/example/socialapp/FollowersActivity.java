@@ -80,6 +80,7 @@ public class FollowersActivity extends AppCompatActivity {
                             idList.add(dataSnapshot.getKey());
                         }
                         showUsers();
+
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
@@ -100,6 +101,7 @@ public class FollowersActivity extends AppCompatActivity {
                             idList.add(dataSnapshot.getKey());
                         }
                         showUsers();
+
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
@@ -119,6 +121,7 @@ public class FollowersActivity extends AppCompatActivity {
                         }
 
                         showUsers();
+
                     }
 
                     @Override
@@ -143,6 +146,7 @@ public class FollowersActivity extends AppCompatActivity {
                             }
                         }
                         userAdapter.notifyDataSetChanged();
+
                     }
 
                     @Override

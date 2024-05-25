@@ -50,7 +50,8 @@ public class NotificationFragment extends Fragment {
     private void readNotifications() {
         FirebaseDatabase.getInstance().getReference().child("Notifications")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .addValueEventListener(new ValueEventListener() {
+                .orderByChild("timestamp") // Sắp xếp theo trường timestamp
+                .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         notificationList.clear();
@@ -58,6 +59,7 @@ public class NotificationFragment extends Fragment {
                             Notification notification = dataSnapshot.getValue(Notification.class);
                             notificationList.add(notification);
                         }
+
 
                         Collections.reverse(notificationList);
                         notificationAdapter.notifyDataSetChanged();
@@ -68,5 +70,6 @@ public class NotificationFragment extends Fragment {
 
                     }
                 });
+
     }
 }

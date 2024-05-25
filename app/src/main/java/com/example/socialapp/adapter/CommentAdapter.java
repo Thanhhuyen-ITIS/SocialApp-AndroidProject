@@ -1,5 +1,6 @@
 package com.example.socialapp.adapter;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -113,9 +114,11 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
                                     .child(comment.getId())
                                     .removeValue()
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                           @SuppressLint("NotifyDataSetChanged")
                                            @Override
                                            public void onComplete(@NonNull Task<Void> task) {
                                                  if (task.isSuccessful()) {
+                                                     notifyDataSetChanged();
                                                       Toast.makeText(context, "Comment deleted", Toast.LENGTH_SHORT).show();
                                                  } else {
                                                       Toast.makeText(context, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
