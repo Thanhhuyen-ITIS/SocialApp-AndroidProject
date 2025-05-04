@@ -78,10 +78,8 @@ public class StartActivity extends AppCompatActivity {
                             return;
                         }
 
-                        // Lấy token mới
                         String token = task.getResult();
 
-                        // Ghi log và lưu token vào cơ sở dữ liệu
                         Log.d("Token", "FCM registration token: " + token);
                         saveDeviceTokenToDatabase(token);
                     }

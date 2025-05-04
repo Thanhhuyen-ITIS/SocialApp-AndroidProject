@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
  public class OptionsActivity extends AppCompatActivity {
     private TextView settings;
@@ -28,11 +30,28 @@ import com.google.firebase.auth.FirebaseAuth;
         toolbar.setNavigationOnClickListener(v -> finish());
 
         logout.setOnClickListener(v -> {
-            FirebaseAuth.getInstance().signOut();
 
-            startActivity(new Intent(OptionsActivity.this, MainActivity.class)
-                    .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-            finish();
+
+            String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+            DatabaseReference tokenRef = FirebaseDatabase.getInstance().getReference("DeviceTokens").child(userId);
+            tokenRef.removeValue()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            FirebaseAuth.getInstance().signOut();
+
+
+                            startActivity(new Intent(OptionsActivity.this, MainActivity.class)
+                                    .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                            finish();
+                        } else {
+
+                            FirebaseAuth.getInstance().signOut();
+                            startActivity(new Intent(OptionsActivity.this, MainActivity.class)
+                                    .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                            finish();
+                        }
+                    });
         });
     }
 }

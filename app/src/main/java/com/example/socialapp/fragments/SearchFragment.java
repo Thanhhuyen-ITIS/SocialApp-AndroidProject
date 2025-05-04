@@ -69,8 +69,10 @@ public class SearchFragment extends Fragment {
 
         search_bar = view.findViewById(R.id.search_bar);
 
-        readUsers();
+//        readUsers();
         readTags();
+
+        searchUsers("");
         search_bar.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -138,7 +140,7 @@ public class SearchFragment extends Fragment {
     }
 
     private void searchUsers(String s) {
-        Query reference = FirebaseDatabase.getInstance().getReference().child("Users").orderByChild("username").startAt(s).endAt(s + "\uf8ff");
+        Query reference = FirebaseDatabase.getInstance().getReference().child("Users").orderByChild("username");
         reference.addValueEventListener(new ValueEventListener() {
 
             @SuppressLint("NotifyDataSetChanged")
